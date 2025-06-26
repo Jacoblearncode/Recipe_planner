@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Planner | Plan Your Meals with AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-text">Recipe</span><span class="brand-text-accent">Planner</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/recipes.html">Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/mealplans.html">Meal Plans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/api-test.html">API Test</a>
+                    </li>
+                    <!-- Authentication Links -->
+                    <li class="nav-item auth-guest">
+                        <a class="nav-link" href="pages/login.html">Login</a>
+                    </li>
+                    <li class="nav-item auth-guest">
+                        <a class="nav-link btn btn-primary text-white px-3 rounded-pill ms-2" href="pages/login.html#signup">Sign Up</a>
+                    </li>
+                    <!-- User Dropdown (Only shown when logged in) -->
+                    <li class="nav-item dropdown auth-user" style="display: none;">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle"></i> <span id="navUsername">Account</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="pages/profile.html">Profile</a></li>
+                            <li><a class="dropdown-item" href="pages/mealplans.html">My Meal Plans</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logoutButton">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1>Transform Your Cooking with AI-Powered Recipes</h1>
+                    <p class="hero-text">Get personalized recipes based on your preferences, dietary needs, and available ingredients. Save time, reduce waste, and enjoy delicious meals.</p>
+                    <div class="hero-buttons">
+                        <a href="pages/login.html" class="btn btn-primary">Get Started</a>
+                        <a href="pages/about.html" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image">
+                        <img src="images/pexels-ella-olsson-572949-3026808.jpg" alt="Delicious healthy meal" class="img-fluid rounded shadow">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Powerful Features for Every Cook</h2>
+                <p>Everything you need to plan, prepare, and enjoy your meals</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h3>Dietary Preferences</h3>
+                        <p>Customize recipes for any diet or restriction</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-carrot"></i>
+                        </div>
+                        <h3>Ingredient Matching</h3>
+                        <p>Find recipes with what you have on hand</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Time-Based Recipes</h3>
+                        <p>Quick meals in your available time slots</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>Weekly Meal Planning</h3>
+                        <p>AI-powered meal schedules you'll love</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shopping-basket"></i>
+                        </div>
+                        <h3>Smart Shopping Lists</h3>
+                        <p>Automatically generate grocery lists</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>Nutrition Tracking</h3>
+                        <p>Monitor your nutritional intake easily</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Simple Steps to Your Perfect Recipe</h2>
+                <p>Getting started is easy and takes just minutes</p>
+            </div>
+            <div class="row steps">
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Tell us your preferences</h3>
+                        <p>Share your dietary needs, likes, and available ingredients</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>AI generates personalized recipes</h3>
+                        <p>Our AI creates the perfect recipe just for you</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Cook and enjoy!</h3>
+                        <p>Follow the recipe and enjoy your delicious meal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recipe Examples Section -->
+    <section class="recipe-examples">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>AI-Generated Recipe Examples</h2>
+                <p>Discover what our AI can create for you</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="recipe-card">
+                        <div class="recipe-image">
+                            <img src="images/pexels-karolina-grabowska-4021695.jpg" alt="Quinoa Buddha Bowl" class="img-fluid">
+                        </div>
+                        <div class="recipe-content">
+                            <h3>Quinoa Buddha Bowl</h3>
+                            <div class="recipe-meta">
+                                <span><i class="fas fa-clock"></i> 25 min</span>
+                                <span><i class="fas fa-leaf"></i> Vegan</span>
+                            </div>
+                            <p>Nutrient-rich bowl with fresh vegetables and tahini dressing</p>
+                            <a href="pages/recipes.html" class="btn btn-sm">Try This Recipe</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recipe-card">
+                        <div class="recipe-image">
+                            <img src="images/pexels-kleine-beyers-583643-2181151.jpg" alt="Perfect Pizza Margherita" class="img-fluid">
+                        </div>
+                        <div class="recipe-content">
+                            <h3>Perfect Pizza Margherita</h3>
+                            <div class="recipe-meta">
+                                <span><i class="fas fa-clock"></i> 40 min</span>
+                                <span><i class="fas fa-cheese"></i> Vegetarian</span>
+                            </div>
+                            <p>Classic Italian pizza with fresh basil and mozzarella</p>
+                            <a href="pages/recipes.html" class="btn btn-sm">Try This Recipe</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recipe-card">
+                        <div class="recipe-image">
+                            <img src="images/pexels-senuscape-728360-2313686.jpg" alt="Grilled Salmon Bowl" class="img-fluid">
+                        </div>
+                        <div class="recipe-content">
+                            <h3>Grilled Salmon Bowl</h3>
+                            <div class="recipe-meta">
+                                <span><i class="fas fa-clock"></i> 30 min</span>
+                                <span><i class="fas fa-fish"></i> Pescatarian</span>
+                            </div>
+                            <p>Omega-rich salmon with quinoa and roasted vegetables</p>
+                            <a href="pages/recipes.html" class="btn btn-sm">Try This Recipe</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>What Our Users Say</h2>
+                <p>Join thousands of happy cooks using AI-powered recipes</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"RecipePlanner has transformed my weekly meal planning. I'm saving time and money while eating better than ever!"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <p><strong>Sarah Johnson</strong><br>Busy parent</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"As a fitness coach, I love how the app helps my clients stick to their nutrition plans with delicious recipes."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <p><strong>Michael Phelps</strong><br>Fitness trainer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"The personalization is incredible! It's like having a personal chef who knows exactly what I like to eat."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <p><strong>Emma Wilson</strong><br>Food enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container text-center">
+            <h2>Ready to Transform Your Cooking?</h2>
+            <p>Join thousands of happy cooks using AI-powered recipes</p>
+            <a href="pages/login.html#signup" class="btn btn-primary btn-lg">Get Started Free</a>
+            <p class="cta-small">No credit card required</p>
+        </div>
+    </section>
+
+    <!-- Footer that contains the copyright symbol and the social media links and getting started free button-->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>RecipePlanner</h3>
+                    <p>Transform your cooking experience with AI-powered recipe suggestions and meal planning.</p>
+                </div>
+                <div class="col-md-2">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="pages/about.html">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4"> <!-- Stay Updated section -->
+                    <h4>Stay Updated</h4> <!-- Stay Updated heading -->
+                    <p>Subscribe to our newsletter for recipes and updates</p> <!-- Stay Updated paragraph -->
+                    <form class="newsletter-form" id="newsletterForm"> <!-- Newsletter form -->
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="newsletterEmail" name="user_email" placeholder="Your email address" required> <!-- Email input field -->
+                            <button class="btn btn-primary" type="submit">Subscribe</button> <!-- Subscribe button -->
+                        </div>
+                    </form>
+                    <div id="newsletter-feedback" class="mt-2"></div>
+                    <small class="text-muted mt-2">By subscribing, you agree to receive recipe updates and newsletters. We respect your privacy and will never share your information. You can unsubscribe at any time.</small>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2025 RecipePlanner. All rights reserved.</p> <!-- &copy is the copyright symbol -->
+                </div>
+                <div class="col-md-6 text-end">
+                    <ul class="social-links">
+                        <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://www.pinterest.com/"><i class="fab fa-pinterest"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    <!-- Appwrite SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@11.0.0"></script>
+    
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+    <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/appwrite-test.js"></script>
+    <script src="js/newsletter.js"></script>
+    
+    <!-- Appwrite Connection Status -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="appwriteToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Appwrite Connection</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="appwriteToastBody">
+                Checking connection to Appwrite...
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { testAppwriteConnection } from './js/appwrite-test.js';
+        
+        // Show connection status in toast
+        document.addEventListener('DOMContentLoaded', async () => {
+            const toast = new bootstrap.Toast(document.getElementById('appwriteToast'));
+            const toastBody = document.getElementById('appwriteToastBody');
+            
+            toast.show();
+            
+            try {
+                const success = await testAppwriteConnection();
+                if (success) {
+                    toastBody.innerHTML = '✅ Connected to Appwrite successfully!';
+                    toastBody.classList.add('bg-success', 'text-white');
+                } else {
+                    toastBody.innerHTML = '❌ Failed to connect to Appwrite. Check console for details.';
+                    toastBody.classList.add('bg-danger', 'text-white');
+                }
+            } catch (error) {
+                toastBody.innerHTML = `❌ Error: ${error.message}`;
+                toastBody.classList.add('bg-danger', 'text-white');
+            }
+        });
+    </script>
+</body>
+</html>

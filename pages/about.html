@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Planner | About Us</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* About page specific styles */
+        .about-header {
+            background-color: var(--light);
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 20%, rgba(232, 93, 4, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .about-section {
+            padding: 5rem 0;
+        }
+        
+        .about-section:nth-child(even) {
+            background-color: var(--light);
+        }
+        
+        .mission-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            height: 100%;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--primary);
+            z-index: 2;
+        }
+        
+        .feature-icon-large {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .feature-box:hover .feature-icon-large {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .feature-box {
+            padding: 2rem;
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .team-member {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--primary-light);
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-member h5 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member .team-role {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .user-segment {
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .user-segment:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .user-segment-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--primary-light);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12.5px;
+            background-color: white;
+            border: 4px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-left {
+            left: 0;
+        }
+        
+        .timeline-right {
+            left: 50%;
+        }
+        
+        .timeline-right::after {
+            left: -12.5px;
+        }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .timeline-left .timeline-content {
+            border-left: 4px solid var(--primary);
+        }
+        
+        .timeline-right .timeline-content {
+            border-right: 4px solid var(--primary);
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .cta-section {
+            background-color: var(--light);
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 18px;
+            }
+            
+            .timeline-right {
+                left: 0;
+            }
+            
+            .timeline-left .timeline-content,
+            .timeline-right .timeline-content {
+                border-left: 4px solid var(--primary);
+                border-right: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <span class="brand-text">Recipe</span><span class="brand-text-accent">Planner</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="recipes.html">Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mealplans.html">Meal Plans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-login" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-signup" href="login.html#signup">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Header -->
+    <header class="about-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="mb-4">About Recipe Planner</h1>
+                    <p class="lead mb-4">Transforming the way you plan, cook, and enjoy meals with AI-powered personalization and smart meal planning.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Our Mission Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Our Mission</h2>
+                <p>Why we created Recipe Planner and what drives us</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="mission-card">
+                        <h3 class="mb-4">Making Meal Planning Simple and Enjoyable</h3>
+                        <p>Recipe Planner was born from a simple observation: meal planning should be easy, but often isn't. Too many people struggle with decision fatigue, food waste, and dietary challenges when planning their daily meals.</p>
+                        <p>Our mission is to streamline the meal preparation process, reduce food waste, and make cooking more accessible for everyone. We believe that with the right tools, meal planning can transform from a chore into a joyful experience.</p>
+                        <p>By leveraging AI and modern web technologies, we're creating personalized meal solutions that adapt to your specific needs, preferences, and available ingredients.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Key Features</h2>
+                <p>What makes Recipe Planner special</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-box">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Recipe Discovery</h3>
+                        <p>Search through our extensive collection of recipes with advanced filtering by meal type, cuisine, cooking time, and dietary restrictions.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-box">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>Meal Planning</h3>
+                        <p>Visually plan your meals for the week with our intuitive drag-and-drop calendar interface. Assign recipes to specific days and meals.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-box">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-shopping-basket"></i>
+                        </div>
+                        <h3>Shopping Lists</h3>
+                        <p>Automatically generate shopping lists based on your meal plans. Identify what ingredients you need to purchase.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-box">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-carrot"></i>
+                        </div>
+                        <h3>Inventory Management</h3>
+                        <p>Track ingredients in your pantry and refrigerator. Monitor freshness and get alerts when staples are running low.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-box">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Nutritional Tracking</h3>
+                        <p>Monitor your nutritional intake with detailed macro and micronutrient breakdowns. Set and track nutritional goals.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-box">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>AI-Powered Suggestions</h3>
+                        <p>Get personalized recipe suggestions based on your preferences, dietary restrictions, and available ingredients.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who We Serve Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Who We Serve</h2>
+                <p>Our solution is designed for various user segments</p>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="user-segment">
+                        <div class="user-segment-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h4>Busy Professionals</h4>
+                        <p><strong>Pain Points:</strong> Limited time for meal planning, frequent food waste, reliance on takeout</p>
+                        <p><strong>Value Proposition:</strong> Save 3-5 hours weekly on meal planning and reduce food waste by 40%</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="user-segment">
+                        <div class="user-segment-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h4>Health-Conscious Individuals</h4>
+                        <p><strong>Pain Points:</strong> Difficulty tracking nutritional intake, finding recipes that match specific goals</p>
+                        <p><strong>Value Proposition:</strong> Achieve nutritional targets while enjoying diverse, flavorful meals</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="user-segment">
+                        <div class="user-segment-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Parents & Family Meal Planners</h4>
+                        <p><strong>Pain Points:</strong> Catering to multiple preferences, managing picky eaters, budget constraints</p>
+                        <p><strong>Value Proposition:</strong> Reduce mealtime stress while satisfying diverse family preferences</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="user-segment">
+                        <div class="user-segment-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h4>Dietary Restriction Navigators</h4>
+                        <p><strong>Pain Points:</strong> Limited recipe options, complex ingredient substitutions</p>
+                        <p><strong>Value Proposition:</strong> Discover 200% more compatible recipes than general recipe sites</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Journey Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Our Journey</h2>
+                <p>The story of Recipe Planner's development</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item timeline-left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Phase 1: Conception</div>
+                        <h4>Project Initialization</h4>
+                        <p>We identified the pain points in meal planning and conceptualized a solution that addresses decision fatigue, food waste, and dietary challenges.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Phase 2: Foundation</div>
+                        <h4>Core Functionality</h4>
+                        <p>We built the foundation of Recipe Planner with essential features including recipe browsing, search capabilities, and a responsive design.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Phase 3: Expansion</div>
+                        <h4>Advanced Features</h4>
+                        <p>We implemented meal planning calendar, user authentication, and nutritional tracking to enhance the user experience.</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">Phase 4: Future</div>
+                        <h4>AI Integration</h4>
+                        <p>We're working on integrating AI for personalized recipe suggestions and smart inventory management to make meal planning even more efficient.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet Our Team Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2>Meet Our Team</h2>
+                <p>The people behind Recipe Planner</p>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="team-member">
+                        <img src="../images/pexels-elletakesphotos-2696064.jpg" alt="Team Member">
+                        <h5>Emily Johnson</h5>
+                        <div class="team-role">Product Lead</div>
+                        <p>Passionate about using technology to solve everyday problems.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="team-member">
+                        <img src="../images/WhatsApp Image 2024-09-26 at 13.01.43_0b94b888.jpg" alt="Team Member">
+                        <h5>Daniel Wong</h5>
+                        <div class="team-role">UX Designer</div>
+                        <p>Creating intuitive and enjoyable user experiences is Daniel's specialty.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="team-member">
+                        <img src="../images/WhatsApp Image 2024-09-26 at 13.01.43_0b94b888.jpg" alt="Team Member">
+                        <h5>Sarah Martinez</h5>
+                        <div class="team-role">Full-Stack Developer</div>
+                        <p>Turning creative ideas into functional, elegant code.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="team-member">
+                        <img src="../images/pexels-vanmalidate-784632.jpg" alt="Team Member">
+                        <h5>Alex Patel</h5>
+                        <div class="team-role">Food Specialist</div>
+                        <p>Professional chef with a passion for making cooking accessible to everyone.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="mb-4">Ready to Transform Your Cooking Experience?</h2>
+                    <p class="lead mb-5">Join thousands of happy users who have simplified their meal planning with Recipe Planner.</p>
+                    <a href="login.html#signup" class="btn btn-primary btn-lg">Get Started Free</a>
+                    <p class="mt-3 text-muted">No credit card required</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>RecipePlanner</h3>
+                    <p>Transform your cooking experience with AI-powered recipe suggestions and meal planning.</p>
+                </div>
+                <div class="col-md-2">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter for recipes and updates</p>
+                    <form class="newsletter-form">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your email address">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; <span id="copyright-year"></span> RecipePlanner. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <ul class="social-links">
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    <!-- Set copyright year dynamically -->
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

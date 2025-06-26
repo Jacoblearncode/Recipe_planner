@@ -1,0 +1,19 @@
+{
+  "name": "recipe-planner",
+  "version": "1.0.0",
+  "description": "AI-powered recipe planning application",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 5500",
+    "dev": "http-server -p 5173",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "appwrite": "^11.0.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

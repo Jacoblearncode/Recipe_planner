@@ -1,0 +1,206 @@
+[
+    {
+        "id": "recipe-001",
+        "title": "Mediterranean Pasta Salad",
+        "image": "https://images.pexels.com/photos/1373915/pexels-photo-1373915.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "prepTime": 15,
+        "cookTime": 10,
+        "difficulty": "easy",
+        "servings": 4,
+        "tags": ["vegetarian", "italian", "quick", "pasta"],
+        "mealType": ["lunch", "dinner"],
+        "cuisine": "italian",
+        "dietaryRestrictions": ["vegetarian"],
+        "ingredients": [
+            { "name": "Pasta", "amount": "8 oz" },
+            { "name": "Cherry tomatoes", "amount": "1 cup" },
+            { "name": "Cucumber", "amount": "1 medium" },
+            { "name": "Red onion", "amount": "1/4 cup" },
+            { "name": "Kalamata olives", "amount": "1/2 cup" },
+            { "name": "Feta cheese", "amount": "4 oz" },
+            { "name": "Olive oil", "amount": "1/4 cup" },
+            { "name": "Lemon juice", "amount": "2 tbsp" },
+            { "name": "Garlic", "amount": "2 cloves" },
+            { "name": "Oregano", "amount": "1 tsp" },
+            { "name": "Salt and pepper", "amount": "to taste" }
+        ],
+        "instructions": [
+            "Cook pasta according to package directions. Drain and rinse with cold water.",
+            "While pasta cooks, chop the tomatoes, cucumber, and red onion.",
+            "In a large bowl, combine pasta, vegetables, olives, and feta cheese.",
+            "In a small bowl, whisk together olive oil, lemon juice, minced garlic, oregano, salt, and pepper.",
+            "Pour dressing over pasta mixture and toss to coat.",
+            "Refrigerate for at least 30 minutes before serving to allow flavors to blend."
+        ],
+        "nutritionInfo": {
+            "calories": 320,
+            "protein": "9g",
+            "carbs": "38g",
+            "fat": "15g"
+        }
+    },
+    {
+        "id": "recipe-002",
+        "title": "Quick Chicken Stir-Fry",
+        "image": "https://images.pexels.com/photos/2313686/pexels-photo-2313686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "prepTime": 10,
+        "cookTime": 15,
+        "difficulty": "medium",
+        "servings": 3,
+        "tags": ["quick", "chicken", "asian"],
+        "mealType": ["dinner"],
+        "cuisine": "asian",
+        "dietaryRestrictions": [],
+        "ingredients": [
+            { "name": "Chicken breast", "amount": "1 lb" },
+            { "name": "Bell peppers", "amount": "2" },
+            { "name": "Broccoli", "amount": "1 cup" },
+            { "name": "Carrots", "amount": "2" },
+            { "name": "Soy sauce", "amount": "3 tbsp" },
+            { "name": "Honey", "amount": "1 tbsp" },
+            { "name": "Garlic", "amount": "3 cloves" },
+            { "name": "Ginger", "amount": "1 tbsp" },
+            { "name": "Vegetable oil", "amount": "2 tbsp" },
+            { "name": "Rice", "amount": "2 cups cooked" }
+        ],
+        "instructions": [
+            "Slice chicken into thin strips and chop all vegetables.",
+            "In a small bowl, mix soy sauce, honey, minced garlic, and grated ginger.",
+            "Heat oil in a large wok or skillet over high heat.",
+            "Add chicken and stir-fry until nearly cooked through, about 3-4 minutes.",
+            "Add vegetables and stir-fry for another 3-4 minutes until crisp-tender.",
+            "Pour sauce over the mixture and cook for 1-2 minutes until thickened.",
+            "Serve hot over cooked rice."
+        ],
+        "nutritionInfo": {
+            "calories": 380,
+            "protein": "28g",
+            "carbs": "42g",
+            "fat": "12g"
+        }
+    },
+    {
+        "id": "recipe-003",
+        "title": "Vegetarian Chickpea Curry",
+        "image": "https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "prepTime": 10,
+        "cookTime": 25,
+        "difficulty": "medium",
+        "servings": 4,
+        "tags": ["vegetarian", "vegan", "curry", "chickpea"],
+        "mealType": ["dinner"],
+        "cuisine": "indian",
+        "dietaryRestrictions": ["vegetarian", "vegan", "gluten-free"],
+        "ingredients": [
+            { "name": "Chickpeas", "amount": "2 cans (15 oz each)" },
+            { "name": "Onion", "amount": "1 large" },
+            { "name": "Garlic", "amount": "3 cloves" },
+            { "name": "Ginger", "amount": "1 tbsp" },
+            { "name": "Tomatoes", "amount": "2 large" },
+            { "name": "Coconut milk", "amount": "1 can (14 oz)" },
+            { "name": "Curry powder", "amount": "2 tbsp" },
+            { "name": "Cumin", "amount": "1 tsp" },
+            { "name": "Turmeric", "amount": "1 tsp" },
+            { "name": "Coriander", "amount": "1 tsp" },
+            { "name": "Vegetable oil", "amount": "2 tbsp" },
+            { "name": "Salt", "amount": "to taste" },
+            { "name": "Fresh cilantro", "amount": "for garnish" }
+        ],
+        "instructions": [
+            "Dice onion, mince garlic and ginger, and chop tomatoes.",
+            "Heat oil in a large pot over medium heat. Add onion and cook until soft, about 5 minutes.",
+            "Add garlic and ginger, cook for 1 minute until fragrant.",
+            "Add tomatoes, curry powder, cumin, turmeric, and coriander. Cook for 5 minutes.",
+            "Drain and rinse chickpeas, then add to the pot.",
+            "Pour in coconut milk and bring to a simmer. Cook for 15 minutes.",
+            "Season with salt to taste and garnish with fresh cilantro.",
+            "Serve with rice or naan bread."
+        ],
+        "nutritionInfo": {
+            "calories": 350,
+            "protein": "12g",
+            "carbs": "35g",
+            "fat": "18g"
+        }
+    },
+    {
+        "id": "recipe-004",
+        "title": "Avocado Toast with Poached Egg",
+        "image": "https://images.pexels.com/photos/793768/pexels-photo-793768.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "prepTime": 5,
+        "cookTime": 5,
+        "difficulty": "easy",
+        "servings": 1,
+        "tags": ["breakfast", "quick", "vegetarian", "healthy"],
+        "mealType": ["breakfast"],
+        "cuisine": "american",
+        "dietaryRestrictions": ["vegetarian"],
+        "ingredients": [
+            { "name": "Bread", "amount": "1 slice" },
+            { "name": "Avocado", "amount": "1/2" },
+            { "name": "Egg", "amount": "1" },
+            { "name": "Red pepper flakes", "amount": "1/4 tsp" },
+            { "name": "Lemon juice", "amount": "1/2 tsp" },
+            { "name": "Salt and pepper", "amount": "to taste" }
+        ],
+        "instructions": [
+            "Toast bread until golden and crisp.",
+            "In a small pot, bring water to a simmer. Add a splash of vinegar.",
+            "Crack egg into a small cup, then carefully slide into simmering water.",
+            "Cook for 3-4 minutes until white is set but yolk is still runny.",
+            "Meanwhile, mash avocado with lemon juice, salt, and pepper.",
+            "Spread avocado mixture on toast.",
+            "Remove poached egg with a slotted spoon, drain, and place on top of avocado.",
+            "Sprinkle with red pepper flakes and additional salt and pepper if desired."
+        ],
+        "nutritionInfo": {
+            "calories": 240,
+            "protein": "9g",
+            "carbs": "15g",
+            "fat": "17g"
+        }
+    },
+    {
+        "id": "recipe-005",
+        "title": "Quinoa Vegetable Bowl",
+        "image": "https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "prepTime": 10,
+        "cookTime": 20,
+        "difficulty": "easy",
+        "servings": 2,
+        "tags": ["vegetarian", "vegan", "bowl", "healthy", "quinoa"],
+        "mealType": ["lunch", "dinner"],
+        "cuisine": "mediterranean",
+        "dietaryRestrictions": ["vegetarian", "vegan", "gluten-free"],
+        "ingredients": [
+            { "name": "Quinoa", "amount": "1 cup" },
+            { "name": "Vegetable broth", "amount": "2 cups" },
+            { "name": "Broccoli", "amount": "1 cup" },
+            { "name": "Sweet potato", "amount": "1 medium" },
+            { "name": "Chickpeas", "amount": "1 can (15 oz)" },
+            { "name": "Avocado", "amount": "1" },
+            { "name": "Lemon juice", "amount": "1 tbsp" },
+            { "name": "Olive oil", "amount": "2 tbsp" },
+            { "name": "Garlic powder", "amount": "1/2 tsp" },
+            { "name": "Cumin", "amount": "1/2 tsp" },
+            { "name": "Paprika", "amount": "1/2 tsp" },
+            { "name": "Salt and pepper", "amount": "to taste" }
+        ],
+        "instructions": [
+            "Rinse quinoa thoroughly. Combine with vegetable broth in a pot, bring to a boil, then reduce heat and simmer covered for 15 minutes.",
+            "Meanwhile, peel and dice sweet potato. Toss with olive oil, garlic powder, cumin, paprika, salt, and pepper.",
+            "Spread sweet potato on a baking sheet and roast at 400°F for 20 minutes.",
+            "Steam broccoli until tender-crisp, about 5 minutes.",
+            "Drain and rinse chickpeas.",
+            "Slice avocado and drizzle with lemon juice.",
+            "Assemble bowls: quinoa on bottom, then arrange sweet potato, broccoli, chickpeas, and avocado on top.",
+            "Drizzle with additional olive oil and season with salt and pepper."
+        ],
+        "nutritionInfo": {
+            "calories": 420,
+            "protein": "14g",
+            "carbs": "58g",
+            "fat": "16g"
+        }
+    }
+] 

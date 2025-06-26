@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Planner | Browse Recipes</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Recipe page specific styles */
+        .recipe-header {
+            background-color: var(--light);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 12px 50px 12px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--gray-300);
+            font-size: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .search-container button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background-color: var(--primary);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .filter-sidebar {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            height: 100%;
+        }
+        
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-group h4 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-option input {
+            margin-right: 0.5rem;
+        }
+        
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .recipe-card {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .recipe-image {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .recipe-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .recipe-card:hover .recipe-image img {
+            transform: scale(1.05);
+        }
+        
+        .recipe-content {
+            padding: 1.25rem;
+        }
+        
+        .recipe-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .recipe-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--secondary);
+            font-size: 0.875rem;
+        }
+        
+        .recipe-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .recipe-tag {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .recipe-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .view-recipe {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-md);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .view-recipe:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .save-recipe {
+            background-color: transparent;
+            border: none;
+            color: var(--gray-400);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .save-recipe:hover, .save-recipe.saved {
+            color: #e74c3c;
+        }
+        
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .sort-options label {
+            margin-right: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .sort-select {
+            padding: 0.5rem;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--gray-300);
+            background-color: white;
+        }
+        
+        /* Recipe modal */
+        .recipe-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .recipe-modal-content {
+            background-color: white;
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .recipe-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .recipe-modal-image {
+            height: 300px;
+        }
+        
+        .recipe-modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .recipe-modal-body {
+            padding: 2rem;
+        }
+        
+        .recipe-modal-title {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .recipe-modal-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .recipe-modal-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .recipe-modal-section h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .ingredients-list, .instructions-list {
+            padding-left: 1.5rem;
+        }
+        
+        .ingredients-list li, .instructions-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .instructions-list li {
+            margin-bottom: 1rem;
+        }
+        
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .nutrition-item {
+            background-color: var(--light);
+            padding: 1rem;
+            border-radius: var(--border-radius-md);
+            text-align: center;
+        }
+        
+        .nutrition-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .nutrition-label {
+            font-size: 0.875rem;
+            color: var(--secondary);
+        }
+        
+        /* Rating system styles */
+        .recipe-rating, .recipe-rating-interactive {
+            margin-bottom: 0.75rem;
+        }
+        
+        .recipe-rating .stars, .recipe-rating-interactive .stars {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .recipe-rating .stars i {
+            color: #f8ce0b;
+        }
+        
+        .recipe-rating-interactive .stars i {
+            color: #f8ce0b;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .recipe-rating-interactive .stars i:hover {
+            transform: scale(1.2);
+        }
+        
+        .recipe-rating-interactive .stars i.hovered {
+            transform: scale(1.2);
+        }
+        
+        .recipe-rating small, .recipe-rating-interactive small {
+            color: var(--gray-400);
+            font-size: 0.75rem;
+        }
+        
+        /* Meal plan styles */
+        .meal-plan-dropdown {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-md);
+        }
+        
+        .meal-plan-dropdown h4 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .meal-plan-dropdown .form-select {
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--gray-300);
+            padding: 0.5rem;
+        }
+        
+        /* Favorites filter */
+        .favorites-filter {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            background-color: white;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .favorites-filter input {
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nutrition-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .recipe-modal-meta {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .recipe-modal-meta div {
+                width: 45%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <span class="brand-text">Recipe</span><span class="brand-text-accent">Planner</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="recipes.html">Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mealplans.html">Meal Plans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-login" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-signup" href="login.html#signup">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Recipe Search Header -->
+    <header class="recipe-header">
+        <div class="container">
+            <h1 class="text-center mb-4">Discover Delicious Recipes</h1>
+            <div class="search-container">
+                <input type="text" id="recipeSearch" placeholder="Search for recipes, ingredients, or cuisines...">
+                <button type="button" id="searchButton">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="search-tags mt-3 text-center">
+                <span class="badge rounded-pill bg-light text-dark m-1">Quick Dinner</span>
+                <span class="badge rounded-pill bg-light text-dark m-1">Healthy</span>
+                <span class="badge rounded-pill bg-light text-dark m-1">Vegetarian</span>
+                <span class="badge rounded-pill bg-light text-dark m-1">Italian</span>
+                <span class="badge rounded-pill bg-light text-dark m-1">Family-Friendly</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mb-5">
+        <div class="row">
+            <!-- Filter Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="filter-sidebar">
+                    <h3 class="mb-4">Filter Recipes</h3>
+                    
+                    <!-- Favorites Filter -->
+                    <div class="favorites-filter mb-3">
+                        <input type="checkbox" id="favoritesOnly" name="favorites">
+                        <label for="favoritesOnly">Show favorites only</label>
+                    </div>
+                    
+                    <!-- Meal Type Filter -->
+                    <div class="filter-group">
+                        <h4>Meal Type</h4>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="breakfast" name="mealType" value="breakfast">
+                                <label for="breakfast">Breakfast</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="lunch" name="mealType" value="lunch">
+                                <label for="lunch">Lunch</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="dinner" name="mealType" value="dinner">
+                                <label for="dinner">Dinner</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="snack" name="mealType" value="snack">
+                                <label for="snack">Snacks</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="dessert" name="mealType" value="dessert">
+                                <label for="dessert">Desserts</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cuisine Filter -->
+                    <div class="filter-group">
+                        <h4>Cuisine</h4>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="italian" name="cuisine" value="italian">
+                                <label for="italian">Italian</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="mexican" name="cuisine" value="mexican">
+                                <label for="mexican">Mexican</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="asian" name="cuisine" value="asian">
+                                <label for="asian">Asian</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="mediterranean" name="cuisine" value="mediterranean">
+                                <label for="mediterranean">Mediterranean</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="american" name="cuisine" value="american">
+                                <label for="american">American</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dietary Restrictions Filter -->
+                    <div class="filter-group">
+                        <h4>Dietary Restrictions</h4>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="vegetarian" name="diet" value="vegetarian">
+                                <label for="vegetarian">Vegetarian</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="vegan" name="diet" value="vegan">
+                                <label for="vegan">Vegan</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="gluten-free" name="diet" value="gluten-free">
+                                <label for="gluten-free">Gluten-Free</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="dairy-free" name="diet" value="dairy-free">
+                                <label for="dairy-free">Dairy-Free</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="low-carb" name="diet" value="low-carb">
+                                <label for="low-carb">Low-Carb</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cooking Time Filter -->
+                    <div class="filter-group">
+                        <h4>Cooking Time</h4>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="under15" name="time" value="under15">
+                                <label for="under15">Under 15 mins</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="under30" name="time" value="under30">
+                                <label for="under30">Under 30 mins</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="under60" name="time" value="under60">
+                                <label for="under60">Under 60 mins</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Difficulty Level Filter -->
+                    <div class="filter-group">
+                        <h4>Difficulty Level</h4>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="easy" name="difficulty" value="easy">
+                                <label for="easy">Easy</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="medium" name="difficulty" value="medium">
+                                <label for="medium">Medium</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="hard" name="difficulty" value="hard">
+                                <label for="hard">Hard</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary w-100" id="applyFilters">Apply Filters</button>
+                    <button class="btn btn-outline-secondary w-100 mt-2" id="clearFilters">Clear All</button>
+                </div>
+            </div>
+            
+            <!-- Recipe Grid -->
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="results-count">
+                        <span id="recipeCount">0</span> recipes found
+                    </div>
+                    <div class="sort-options">
+                        <label for="sortSelect">Sort by:</label>
+                        <select id="sortSelect" class="sort-select">
+                            <option value="popular">Most Popular</option>
+                            <option value="newest">Newest</option>
+                            <option value="time">Cooking Time</option>
+                            <option value="difficulty">Difficulty</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="recipe-grid" id="recipeGrid">
+                    <!-- Recipe cards will be generated here by JavaScript -->
+                </div>
+                
+                <!-- Pagination -->
+                <nav aria-label="Recipe pagination" class="mt-4">
+                    <ul class="pagination justify-content-center" id="recipePagination">
+                        <!-- Pagination will be generated by JavaScript -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Recipe Modal -->
+    <div class="recipe-modal" id="recipeModal">
+        <div class="recipe-modal-content">
+            <div class="recipe-modal-close" id="closeRecipeModal">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="recipe-modal-image">
+                <img src="../images/pexels-ella-olsson-572949-3026808.jpg" alt="Recipe Image" id="modalRecipeImage">
+            </div>
+            <div class="recipe-modal-body" id="recipeModalBody">
+                <!-- Recipe details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>RecipePlanner</h3>
+                    <p>Transform your cooking experience with AI-powered recipe suggestions and meal planning.</p>
+                </div>
+                <div class="col-md-2">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter for recipes and updates</p>
+                    <form class="newsletter-form">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your email address">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; <span id="copyright-year"></span> RecipePlanner. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <ul class="social-links">
+                        <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://www.pinterest.com/"><i class="fab fa-pinterest"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    <!-- Set copyright year dynamically -->
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
+    
+    <!-- Recipe JavaScript - Dynamic Loading -->
+    <script type="module" src="../js/dataService.js"></script>
+    <script type="module" src="../js/recipeLoader.js"></script>
+    <script type="module" src="../js/recipes-dynamic.js"></script>
+</body>
+</html>

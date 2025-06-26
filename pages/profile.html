@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Planner | User Profile</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Profile Page Styles */
+        .profile-header {
+            background-color: var(--light);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-container {
+            margin-bottom: 3rem;
+        }
+        
+        .profile-sidebar {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            height: 100%;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--primary);
+        }
+        
+        .profile-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-email {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .profile-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .profile-nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius-md);
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-nav-link:hover, .profile-nav-link.active {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        .profile-nav-link i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .profile-content {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .profile-section {
+            margin-bottom: 2rem;
+        }
+        
+        .profile-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .profile-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            border-radius: var(--border-radius-md);
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(232, 93, 4, 0.25);
+        }
+        
+        .form-error {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .form-text {
+            font-size: 0.875rem;
+            color: var(--secondary);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+            display: none;
+        }
+        
+        .preference-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .preference-item .form-check-input {
+            margin-right: 0.5rem;
+        }
+        
+        .preference-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .preference-group-title {
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        
+        /* Password strength meter */
+        .password-strength {
+            width: 100%;
+            height: 5px;
+            margin-top: 0.5rem;
+            border-radius: 3px;
+            background-color: #eee;
+        }
+        
+        .password-strength-meter {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .strength-weak {
+            width: 33%;
+            background-color: #dc3545;
+        }
+        
+        .strength-medium {
+            width: 66%;
+            background-color: #ffc107;
+        }
+        
+        .strength-strong {
+            width: 100%;
+            background-color: #28a745;
+        }
+        
+        /* Password visibility toggle */
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .form-password-group {
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-sidebar {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <span class="brand-text">Recipe</span><span class="brand-text-accent">Planner</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="recipes.html">Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mealplans.html">Meal Plans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle"></i> <span id="navUsername">Account</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                            <li><a class="dropdown-item" href="#" id="logoutButton">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Header -->
+    <header class="profile-header">
+        <div class="container">
+            <h1>My Profile</h1>
+            <p class="text-muted">Manage your account settings and preferences</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container profile-container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <div class="text-center mb-4">
+                        <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-avatar" id="profileAvatar">
+                        <h3 class="profile-name" id="profileName">User Name</h3>
+                        <p class="profile-email" id="profileEmail">user@example.com</p>
+                    </div>
+                    
+                    <ul class="profile-nav">
+                        <li class="profile-nav-item">
+                            <a href="#personal-info" class="profile-nav-link active" data-bs-toggle="tab" data-bs-target="#personal-info">
+                                <i class="fas fa-user"></i> Personal Information
+                            </a>
+                        </li>
+                        <li class="profile-nav-item">
+                            <a href="#dietary-preferences" class="profile-nav-link" data-bs-toggle="tab" data-bs-target="#dietary-preferences">
+                                <i class="fas fa-utensils"></i> Dietary Preferences
+                            </a>
+                        </li>
+                        <li class="profile-nav-item">
+                            <a href="#security" class="profile-nav-link" data-bs-toggle="tab" data-bs-target="#security">
+                                <i class="fas fa-lock"></i> Security
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="col-md-9">
+                <div class="profile-content">
+                    <div class="tab-content">
+                        <!-- Personal Information -->
+                        <div class="tab-pane fade show active" id="personal-info">
+                            <div class="profile-section">
+                                <h2 class="profile-section-title">Personal Information</h2>
+                                
+                                <div class="alert alert-success" id="personalInfoSuccess"></div>
+                                <div class="alert alert-danger" id="personalInfoError"></div>
+                                
+                                <form id="personalInfoForm">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name" class="form-label">Name</label>
+                                                <input type="text" class="form-control" id="name" placeholder="Your name">
+                                                <div class="form-error" id="nameError"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">Email Address</label>
+                                        <input type="email" class="form-control" id="email" placeholder="Your email" disabled>
+                                        <div class="form-text">Email cannot be changed. Contact support if you need to update your email.</div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="cookingSkill" class="form-label">Cooking Skill Level</label>
+                                        <select class="form-select" id="cookingSkill">
+                                            <option value="beginner">Beginner</option>
+                                            <option value="intermediate">Intermediate</option>
+                                            <option value="advanced">Advanced</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary" id="savePersonalInfoBtn">
+                                        <span class="spinner-border" id="personalInfoSpinner" role="status" aria-hidden="true"></span>
+                                        Save Changes
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Dietary Preferences -->
+                        <div class="tab-pane fade" id="dietary-preferences">
+                            <div class="profile-section">
+                                <h2 class="profile-section-title">Dietary Preferences</h2>
+                                
+                                <div class="alert alert-success" id="dietarySuccess"></div>
+                                <div class="alert alert-danger" id="dietaryError"></div>
+                                
+                                <form id="dietaryPreferencesForm">
+                                    <div class="preference-group">
+                                        <h4 class="preference-group-title">Diet Type</h4>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="vegetarian" name="dietType" value="vegetarian">
+                                            <label class="form-check-label" for="vegetarian">Vegetarian</label>
+                                        </div>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="vegan" name="dietType" value="vegan">
+                                            <label class="form-check-label" for="vegan">Vegan</label>
+                                        </div>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="pescatarian" name="dietType" value="pescatarian">
+                                            <label class="form-check-label" for="pescatarian">Pescatarian</label>
+                                        </div>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="keto" name="dietType" value="keto">
+                                            <label class="form-check-label" for="keto">Keto</label>
+                                        </div>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="paleo" name="dietType" value="paleo">
+                                            <label class="form-check-label" for="paleo">Paleo</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="preference-group">
+                                        <h4 class="preference-group-title">Allergies & Intolerances</h4>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="gluten" name="allergies" value="gluten">
+                                            <label class="form-check-label" for="gluten">Gluten</label>
+                                        </div>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="dairy" name="allergies" value="dairy">
+                                            <label class="form-check-label" for="dairy">Dairy</label>
+                                        </div>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="nuts" name="allergies" value="nuts">
+                                            <label class="form-check-label" for="nuts">Nuts</label>
+                                        </div>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="shellfish" name="allergies" value="shellfish">
+                                            <label class="form-check-label" for="shellfish">Shellfish</label>
+                                        </div>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="soy" name="allergies" value="soy">
+                                            <label class="form-check-label" for="soy">Soy</label>
+                                        </div>
+                                        <div class="preference-item">
+                                            <input class="form-check-input" type="checkbox" id="eggs" name="allergies" value="eggs">
+                                            <label class="form-check-label" for="eggs">Eggs</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary" id="saveDietaryBtn">
+                                        <span class="spinner-border" id="dietarySpinner" role="status" aria-hidden="true"></span>
+                                        Save Preferences
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Security -->
+                        <div class="tab-pane fade" id="security">
+                            <div class="profile-section">
+                                <h2 class="profile-section-title">Change Password</h2>
+                                
+                                <div class="alert alert-success" id="passwordSuccess"></div>
+                                <div class="alert alert-danger" id="passwordError"></div>
+                                
+                                <form id="changePasswordForm">
+                                    <div class="form-group form-password-group">
+                                        <label for="currentPassword" class="form-label">Current Password</label>
+                                        <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password">
+                                        <i class="fas fa-eye password-toggle" id="currentPasswordToggle"></i>
+                                        <div class="form-error" id="currentPasswordError"></div>
+                                    </div>
+                                    
+                                    <div class="form-group form-password-group">
+                                        <label for="newPassword" class="form-label">New Password</label>
+                                        <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+                                        <i class="fas fa-eye password-toggle" id="newPasswordToggle"></i>
+                                        <div class="form-error" id="newPasswordError"></div>
+                                        <div class="password-strength">
+                                            <div class="password-strength-meter" id="passwordStrengthMeter"></div>
+                                        </div>
+                                        <div class="form-text">Password must be at least 8 characters long and contain letters and numbers.</div>
+                                    </div>
+                                    
+                                    <div class="form-group form-password-group">
+                                        <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+                                        <i class="fas fa-eye password-toggle" id="confirmPasswordToggle"></i>
+                                        <div class="form-error" id="confirmPasswordError"></div>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary" id="changePasswordBtn">
+                                        <span class="spinner-border" id="passwordSpinner" role="status" aria-hidden="true"></span>
+                                        Change Password
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>RecipePlanner</h3>
+                    <p>Transform your cooking experience with AI-powered recipe suggestions and meal planning.</p>
+                </div>
+                <div class="col-md-2">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter for recipes and updates</p>
+                    <form class="newsletter-form">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your email address">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; <span id="copyright-year"></span> RecipePlanner. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <ul class="social-links">
+                        <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://www.pinterest.com/"><i class="fab fa-pinterest"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    <!-- Set copyright year dynamically -->
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
+    
+    <!-- Profile JS -->
+    <script type="module" src="../js/profile.js"></script>
+</body>
+</html> 

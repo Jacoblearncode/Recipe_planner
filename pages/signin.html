@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Planner | Sign Up</title>
+    <!-- Immediate redirect using meta refresh -->
+    <meta http-equiv="refresh" content="0; url=login.html#signup">
+    <script>
+        // Immediate redirect using JavaScript
+        window.location.replace("login.html#signup");
+        
+        // Fallback redirect
+        document.addEventListener('DOMContentLoaded', function() {
+            window.location.href = "login.html#signup";
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #c9d6ff;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #512da8;
+        }
+        a {
+            color: #512da8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Redirecting to Sign Up...</h1>
+        <p>If you are not redirected automatically, please <a href="login.html#signup">click here</a>.</p>
+    </div>
+</body>
+</html>
