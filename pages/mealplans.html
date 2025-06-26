@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Planner | Meal Plans</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Meal Planning Page Specific Styles */
+        .meal-plan-header {
+            background-color: var(--light);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .calendar-container {
+            margin-bottom: 3rem;
+        }
+        
+        .meal-sidebar {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            height: 100%;
+            margin-bottom: 2rem;
+        }
+        
+        .meal-calendar {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .day-header {
+            text-align: center;
+            font-weight: 600;
+            padding: 0.75rem 0;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+        }
+        
+        .meal-slot {
+            min-height: 100px;
+            border: 1px dashed var(--gray-300);
+            border-radius: var(--border-radius-sm);
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            background-color: var(--gray-100);
+            transition: all 0.3s ease;
+        }
+        
+        .meal-slot:hover {
+            border-color: var(--primary);
+            background-color: var(--light);
+        }
+        
+        .meal-slot.has-meal {
+            border-style: solid;
+            border-color: var(--primary-light);
+            background-color: white;
+        }
+        
+        .meal-item {
+            padding: 0.75rem;
+            border-radius: var(--border-radius-md);
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 0.75rem;
+            cursor: grab;
+            transition: all 0.3s ease;
+        }
+        
+        .meal-item:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .meal-item-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .meal-item-meta {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .meal-type-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--secondary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .recipe-search {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .recipe-search input {
+            width: 100%;
+            padding: 0.5rem 2rem 0.5rem 0.75rem;
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--gray-300);
+            font-size: 0.875rem;
+        }
+        
+        .recipe-search button {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+        }
+        
+        .recipes-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .summary-panel {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+        }
+        
+        .nutrition-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .nutrition-item {
+            background-color: var(--light);
+            padding: 1rem;
+            border-radius: var(--border-radius-md);
+            text-align: center;
+        }
+        
+        .nutrition-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .nutrition-label {
+            font-size: 0.875rem;
+            color: var(--secondary);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .meal-calendar {
+                overflow-x: auto;
+            }
+            
+            .nutrition-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <span class="brand-text">Recipe</span><span class="brand-text-accent">Planner</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="recipes.html">Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="mealplans.html">Meal Plans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-login" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-signup" href="login.html#signup">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Meal Plan Header -->
+    <header class="meal-plan-header">
+        <div class="container">
+            <h1 class="text-center mb-4">Weekly Meal Planner</h1>
+            <p class="text-center mb-4">Plan your meals for the week, track nutrition, and generate shopping lists</p>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="meal-plan-actions d-flex justify-content-center gap-3">
+                        <button class="btn btn-outline-primary" id="loadTemplate">
+                            <i class="fas fa-copy me-2"></i>Load Template
+                        </button>
+                        <button class="btn btn-outline-primary" id="saveTemplate">
+                            <i class="fas fa-save me-2"></i>Save Current Plan
+                        </button>
+                        <button class="btn btn-primary" id="generateShoppingList">
+                            <i class="fas fa-shopping-cart me-2"></i>Generate Shopping List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mb-5">
+        <div class="row">
+            <!-- Recipe Sidebar -->
+            <div class="col-lg-3">
+                <div class="meal-sidebar sticky-top" style="top: 90px;">
+                    <h3 class="mb-4">Recipe Library</h3>
+                    
+                    <!-- Recipe Search -->
+                    <div class="recipe-search">
+                        <input type="text" id="recipeSearchInput" placeholder="Search recipes...">
+                        <button type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Favorite Recipes -->
+                    <div class="section-title mt-4">
+                        <i class="fas fa-heart text-danger me-2"></i>Favorite Recipes
+                    </div>
+                    <div class="recipes-list" id="favoriteRecipes">
+                        <!-- Favorite recipes will be populated by JavaScript -->
+                        <div class="meal-item" draggable="true">
+                            <div class="meal-item-title">Mediterranean Pasta Salad</div>
+                            <div class="meal-item-meta">
+                                <span><i class="far fa-clock"></i> 25 min</span>
+                                <span><i class="fas fa-utensils"></i> Easy</span>
+                            </div>
+                        </div>
+                        <div class="meal-item" draggable="true">
+                            <div class="meal-item-title">Teriyaki Salmon Bowl</div>
+                            <div class="meal-item-meta">
+                                <span><i class="far fa-clock"></i> 30 min</span>
+                                <span><i class="fas fa-utensils"></i> Medium</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recently Viewed Recipes -->
+                    <div class="section-title mt-4">
+                        <i class="fas fa-history me-2"></i>Recently Viewed
+                    </div>
+                    <div class="recipes-list" id="recentRecipes">
+                        <!-- Recently viewed recipes will be populated by JavaScript -->
+                        <div class="meal-item" draggable="true">
+                            <div class="meal-item-title">Quinoa Buddha Bowl</div>
+                            <div class="meal-item-meta">
+                                <span><i class="far fa-clock"></i> 20 min</span>
+                                <span><i class="fas fa-utensils"></i> Easy</span>
+                            </div>
+                        </div>
+                        <div class="meal-item" draggable="true">
+                            <div class="meal-item-title">Classic Margherita Pizza</div>
+                            <div class="meal-item-meta">
+                                <span><i class="far fa-clock"></i> 45 min</span>
+                                <span><i class="fas fa-utensils"></i> Medium</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Instructions -->
+                    <div class="recipe-instructions mt-4 p-3 bg-light rounded">
+                        <h5><i class="fas fa-info-circle me-2 text-primary"></i>How to Use</h5>
+                        <ol class="small mb-0">
+                            <li>Drag recipes from the sidebar to meal slots</li>
+                            <li>Click on a meal to view or edit details</li>
+                            <li>Generate a shopping list for your weekly plan</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calendar -->
+            <div class="col-lg-9">
+                <div class="calendar-container">
+                    <div class="meal-calendar">
+                        <div class="row">
+                            <!-- Day Headers -->
+                            <div class="col">
+                                <div class="day-header">Monday</div>
+                            </div>
+                            <div class="col">
+                                <div class="day-header">Tuesday</div>
+                            </div>
+                            <div class="col">
+                                <div class="day-header">Wednesday</div>
+                            </div>
+                            <div class="col">
+                                <div class="day-header">Thursday</div>
+                            </div>
+                            <div class="col">
+                                <div class="day-header">Friday</div>
+                            </div>
+                            <div class="col">
+                                <div class="day-header">Saturday</div>
+                            </div>
+                            <div class="col">
+                                <div class="day-header">Sunday</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Breakfast Row -->
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="meal-type-label">Breakfast</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="meal-slot" data-day="monday" data-meal="breakfast"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="tuesday" data-meal="breakfast"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="wednesday" data-meal="breakfast"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="thursday" data-meal="breakfast"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="friday" data-meal="breakfast"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="saturday" data-meal="breakfast"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="sunday" data-meal="breakfast"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Lunch Row -->
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="meal-type-label">Lunch</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="meal-slot" data-day="monday" data-meal="lunch"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="tuesday" data-meal="lunch"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="wednesday" data-meal="lunch"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="thursday" data-meal="lunch"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="friday" data-meal="lunch"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="saturday" data-meal="lunch"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="sunday" data-meal="lunch"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Dinner Row -->
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="meal-type-label">Dinner</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="meal-slot" data-day="monday" data-meal="dinner"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="tuesday" data-meal="dinner"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="wednesday" data-meal="dinner"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="thursday" data-meal="dinner"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="friday" data-meal="dinner"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="saturday" data-meal="dinner"></div>
+                            </div>
+                            <div class="col">
+                                <div class="meal-slot" data-day="sunday" data-meal="dinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Summary Panel -->
+                <div class="summary-panel">
+                    <h3 class="mb-3">Weekly Summary</h3>
+                    
+                    <div class="nutrition-summary">
+                        <div class="nutrition-item">
+                            <div class="nutrition-value" id="totalCalories">0</div>
+                            <div class="nutrition-label">Avg. Calories/Day</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-value" id="totalProtein">0g</div>
+                            <div class="nutrition-label">Avg. Protein/Day</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-value" id="totalCarbs">0g</div>
+                            <div class="nutrition-label">Avg. Carbs/Day</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-value" id="totalFat">0g</div>
+                            <div class="nutrition-label">Avg. Fat/Day</div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="generateShoppingList">
+                            <i class="fas fa-shopping-basket"></i> Generate Shopping List
+                        </button>
+                        <button class="btn btn-outline-primary" id="printMealPlan">
+                            <i class="fas fa-print"></i> Print Meal Plan
+                        </button>
+                        <button class="btn btn-secondary" id="clearMealPlan">
+                            <i class="fas fa-trash"></i> Clear Plan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Shopping List Modal -->
+    <div class="modal fade" id="shoppingListModal" tabindex="-1" aria-labelledby="shoppingListModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="shoppingListModalLabel">Shopping List</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="shoppingListContent">
+                        <!-- Shopping list will be generated here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="printShoppingList">
+                        <i class="fas fa-print"></i> Print List
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Selection Modal -->
+    <div class="modal fade" id="recipeSelectionModal" tabindex="-1" aria-labelledby="recipeSelectionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recipeSelectionModalLabel">Select Recipe</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="recipe-search mb-3">
+                        <input type="text" id="modalRecipeSearch" placeholder="Search recipes...">
+                        <button type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div id="recipeSelectionContainer" class="row">
+                        <!-- Recipes will be loaded here -->
+                    </div>
+                    <div id="recipeSelectionLoading" class="text-center py-4 d-none">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading recipes...</p>
+                    </div>
+                    <div id="recipeSelectionEmpty" class="text-center py-4 d-none">
+                        <p>No recipes found. Try adjusting your search.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Detail Modal -->
+    <div class="modal fade" id="recipeDetailModal" tabindex="-1" aria-labelledby="recipeDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recipeDetailModalLabel">Recipe Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="recipeDetailContent">
+                    <!-- Recipe details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addToMealPlanBtn">
+                        <i class="fas fa-plus"></i> Add to Meal Plan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>RecipePlanner</h3>
+                    <p>Transform your cooking experience with AI-powered recipe suggestions and meal planning.</p>
+                </div>
+                <div class="col-md-2">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter for recipes and updates</p>
+                    <form class="newsletter-form">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your email address">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; <span id="copyright-year"></span> RecipePlanner. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <ul class="social-links">
+                        <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://www.pinterest.com/"><i class="fab fa-pinterest"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    <!-- Set copyright year dynamically -->
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
+    
+    <!-- Appwrite SDK from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.0"></script>
+    
+    <!-- Meal Planner JavaScript - Dynamic Loading -->
+    <script type="module" src="../js/appwrite.js"></script>
+    <script type="module" src="../js/dataService.js"></script>
+    <script type="module" src="../js/recipeLoader.js"></script>
+    <script type="module" src="../js/mealplanner-dynamic.js"></script>
+</body>
+</html>
