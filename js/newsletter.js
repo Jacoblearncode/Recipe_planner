@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // These IDs correspond to the ones you create in your EmailJS account.
             // IMPORTANT: Replace with your actual Service ID and Template ID.
-            const serviceID = 'YOUR_SERVICE_ID';
-            const templateID = 'YOUR_TEMPLATE_ID';
+            const serviceID = 'service_oq04ybe'; // Replace with your EmailJS service ID
+            const templateID = 'template_73m38z2'; // Replace with your EmailJS template ID
 
             // Disable the submit button and show loading state
             if (submitButton) {
